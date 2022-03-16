@@ -14,6 +14,7 @@ var app = new Vue({
         button_submit: 'Save',
         account_alias: '',
         account_description: '',
+		account_rewards: '',
         server_type: '',
         server_renewable: '',
         server_cpu: '',
@@ -49,6 +50,9 @@ var app = new Vue({
 
         if (response.data.description)
           this.editAccount.account_description = response.data.description;
+
+        if (response.data.rewards)
+          this.editAccount.account_rewards = response.data.rewards;
 
         if (response.data.website)
           this.editAccount.account_website = response.data.website;
@@ -109,6 +113,7 @@ var app = new Vue({
           account: this.address,
           account_alias: '' + this.editAccount.account_alias,
           account_description: '' + this.editAccount.account_description,
+          account_rewards: '' + this.editAccount.account_rewards,
           account_website: '' + this.editAccount.account_website,
           account_monitorUrl: '' + this.editAccount.account_monitorUrl,
           server_type: '' + this.editAccount.server_type,

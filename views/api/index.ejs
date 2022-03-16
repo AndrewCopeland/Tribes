@@ -1,15 +1,15 @@
 <% include ../../partials/header.ejs %>
 
-<h1>My Nano Ninja API</h1>
-<h4>Build awesome apps with the Ninja!</h4>
+<h1>The PAW tribes API</h1>
+<h4>Build awesome apps!</h4>
 
 <h2>Base URL</h2>
-<pre>https://mynano.ninja/api/</pre>
+<pre>https://tribes.paw.digital/api/</pre>
 
 <h2>General</h2>
 
 <h3>Direct RPC Access</h3>
-<p>With this endpoint you can communicate with the Nano Node directly.</p>
+<p>With this endpoint you can communicate with the PAW Node directly.</p>
 <p>
   <a href="/api/node" class="btn btn-secondary">Open Node API docs</a>
 </p>
@@ -17,7 +17,7 @@
 <h3>Blockcount</h3>
 <p>Returns the current block count</p>
 <pre>/blockcount</pre>
-
+<%#
 <h3>Ledger</h3>
 <h4>Download</h4>
 <p>Redirects to the current ledger file at <a href="https://yadi.sk/d/fcZgyES73Jzj5T">Yandex Disk</a></p>
@@ -28,11 +28,11 @@
 <h4>Checksum MD5</h4>
 <p>Outputs the MD5 checksum of the ledger download</p>
 <pre>/ledger/checksum/md5</pre>
-
+%>
 <h2>Accounts</h2>
 
-<h3>Principals</h3>
-<p>Accounts with over 0.1% voting weight</p>
+<h3>Tribes</h3>
+<p>Accounts with over 0.1% pack size</p>
 <pre>/accounts/principals</pre>
 
 <h3>Verified</h3>
@@ -63,7 +63,7 @@
     <tr>
       <td>account</td>
       <td>String</td>
-      <td>Nano address nano_1234...</td>
+      <td>PAW address paw_1234...</td>
     </tr>
   </tbody>
 </table>

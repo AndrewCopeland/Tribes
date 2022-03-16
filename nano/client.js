@@ -7,7 +7,7 @@ const nano = new Nano({
   url: process.env.NODE_RPC
 });
 
-var available = 133248289218203497353846153999000000001;
+var available = 340282366920938463463374607431768211455;//133248289218203497353846153999000000001;
 var blockcount = 0;
 
 function getAvailable(){

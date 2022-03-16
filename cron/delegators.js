@@ -25,7 +25,8 @@ function updateDelegators() {
 
       async.forEachOfSeries(accounts, (account, key, callback) => {
 
-        updateAccountDelegatorsExternal(account, callback);
+        //updateAccountDelegatorsExternal(account, callback);
+		updateAccountDelegators(account, callback);
 
       }, err => {
         if (err) {
@@ -37,7 +38,7 @@ function updateDelegators() {
     });
 }
 
-/*
+
 function updateAccountDelegators(account, callback) {
   console.log('Updating delegators of', account.account)
   nano.rpc('delegators_count', { account: account.account })
@@ -59,8 +60,7 @@ function updateAccountDelegators(account, callback) {
       callback(false);
     });
 }
-*/
-
+/*
 function updateAccountDelegatorsExternal(account, callback) {
   console.log('DELEGATORS: Updating', account.account)
 
@@ -85,3 +85,4 @@ function updateAccountDelegatorsExternal(account, callback) {
       callback()
     })
 }
+*/

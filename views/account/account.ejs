@@ -36,7 +36,7 @@
       <div class="modal-footer">
         <div class="btn-group" role="group" aria-label="Basic example">
           <a href="nano:<% if (account === null) { %><%= myaccount %><% } else { %><%= account.account %><% } %>" class="btn btn-secondary">Pay</a>
-          <a href="nanorep:<% if (account === null) { %><%= myaccount %><% } else { %><%= account.account %><% } %>" class="btn btn-secondary">Representative</a>
+          <a href="nanorep:<% if (account === null) { %><%= myaccount %><% } else { %><%= account.account %><% } %>" class="btn btn-secondary">Tribe</a>
         </div>
         <a href="/account/<% if (account === null) { %><%= myaccount %><% } else { %><%= account.account %><% } %>/send" class="btn btn-secondary">Payment link</a>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -46,7 +46,7 @@
 </div>
 
 <div class="alert alert-danger" v-if="account && account.closing">
-  <strong>Heads up!</strong> This representative will shut down soon. Please <a href="/" class="alert-link">choose a new one here</a>!
+  <strong>Heads up!</strong> This tribe will shut down soon. Please <a href="/" class="alert-link">choose a new one here</a>!
 </div>
 
 <div class="card elegant-color mb-3">
@@ -63,7 +63,7 @@
     </div>
     <div class="px-3">
       <div class="flex items-center grey-text mb-1">
-        <span>Represented by</span>
+        <span>Tribe</span>
       </div>
       <div class="flex">
         <div class="text-lg text-white semibold truncate" v-if="info">
@@ -77,7 +77,7 @@
       </div>
       <div class="flex">
         <div class="text-lg text-white semibold truncate">
-          Ӿ{{ info.pending | toMnano | toLocaleString }}
+          {{ info.pending | toMnano | toLocaleString }} PAW
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@
       </div>
       <div class="flex">
         <div class="text-lg text-white semibold truncate" v-if="info">
-          <span class="mr-2">Ӿ{{ info.balance | toMnano | toLocaleString }}</span>
+          <span class="mr-2">{{ info.balance | toMnano | toLocaleString }} PAW</span>
         </div>
       </div>
     </div>
@@ -117,8 +117,8 @@
 <div class="card mb-3" v-if="account && account.votingweight > 0">
   <div class="card-body d-flex flex-column px-5">
     <div class="d-flex border-bottom py-2">
-      <div class="flex-grow-1">Voting Weight</div>
-      <div>Ӿ{{ account.votingweight | toMnano | toLocaleString }}</div>
+      <div class="flex-grow-1">Tribe size</div>
+      <div>{{ account.votingweight | toMnano | toLocaleString }} PAW</div>
     </div>
     <div class="d-flex border-bottom py-2">
       <div class="flex-grow-1">Uptime</div>
@@ -131,12 +131,12 @@
       <div v-else><span class="badge badge-danger">Offline</span></div>
     </div>
     <div class="d-flex border-bottom py-2">
-      <div class="flex-grow-1">Last voted</div>
+      <div class="flex-grow-1">Last movement</div>
       <div v-if="account.lastVoted">{{ account.lastVoted | momentFromNow }}</div>
-      <div v-else>Never voted</div>
+      <div v-else>Never moved</div>
     </div>
     <div class="d-flex border-bottom py-2" v-if="account.isOnline">
-      <div class="flex-grow-1">Vote Latency</div>
+      <div class="flex-grow-1">Speed</div>
       <div v-if="account.votelatency < -100">
         <span class="badge badge-success mr-1" :title="account.votelatency +' ms (average)'">Very Fast</span>
       </div>
@@ -189,15 +189,21 @@
               <div class="modal-body">
                 <div class="form-group">
                   <label>Account alias</label>
-                  <input type="text" class="form-control" name="account_alias" id="account_alias" v-model="editAccount.account_alias" placeholder="My Nano node"
+                  <input type="text" class="form-control" name="account_alias" id="account_alias" v-model="editAccount.account_alias" placeholder="My PAW node"
                     value="<% if (account.alias) { %><%= account.alias %><% } %>">
                   <small class="form-text text-muted">This will be shown instead of the full address.</small>
                 </div>
                 <div class="form-group">
                   <label>Introduction</label>
-                  <input type="text" class="form-control" name="account_description" id="account_description" v-model="editAccount.account_description" placeholder="I run this representative because..."
+                  <input type="text" class="form-control" name="account_description" id="account_description" v-model="editAccount.account_description" placeholder="I run this tribe because..."
                     value="<% if (account.description) { %><%= account.description %><% } %>" maxlength="500">
-                  <small class="form-text text-muted">Write a short text why you run this representative.</small>
+                  <small class="form-text text-muted">Write a short text why you run this tribe.</small>
+                </div>
+                <div class="form-group">
+                  <label>Delegator Rewards</label>
+                  <input type="text" class="form-control" name="account_rewards" id="account_rewards" v-model="editAccount.account_rewards" placeholder="I offer rewards for delegators"
+                    value="<% if (account.rewards) { %><%= account.rewards %><% } %>" maxlength="500">
+                  <small class="form-text text-muted">Describe any automatic or non-automatic rewards you offer for delegators. Leave blank if you don't offer rewards.</small>
                 </div>
                 <div class="form-group">
                   <label>Website</label>
@@ -222,7 +228,7 @@
                   <small class="form-text text-muted">How much RAM do you have?</small>
                 </div>
                 <div class="form-group">
-                  <label>Nano Node Monitor</label>
+                  <label>PAW Node Monitor</label>
                   <input type="text" class="form-control" v-model="editAccount.account_monitorUrl" placeholder="https://monitor.nanonode.com"
                     pattern="(https:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,8}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
                     oninvalid="this.setCustomValidity('Full URL, only HTTPS')"
@@ -231,7 +237,7 @@
                 </div>
                 <div class="form-group">
                   <label>Donation Account</label>
-                  <input type="text" class="form-control" v-model="editAccount.donation.account" placeholder="nano_1abc..." pattern="(nano_[a-z0-9]{60}|[A-Z0-9]{64})">
+                  <input type="text" class="form-control" v-model="editAccount.donation.account" placeholder="paw_1abc..." pattern="(paw_[a-z0-9]{60}|[A-Z0-9]{64})">
                   <small class="form-text text-muted">Enter a address if you want to receive donations</small>
                 </div>
                 <div class="form-group">
@@ -243,7 +249,7 @@
                 <div class="form-group form-check">
                   <input type="checkbox" class="form-check-input" name="closing" id="closing" v-model="editAccount.closing">
                   <label class="form-check-label" for="exampleCheck1">Closing</label>
-                  <small class="form-text text-muted"><span class="text-danger">Warning:</span> This set your representative to shutdown mode</small>
+                  <small class="form-text text-muted"><span class="text-danger">Warning:</span> This sets your tribe to shutdown mode</small>
                 </div>
               </div>
               <div class="modal-footer">
@@ -320,7 +326,7 @@
       <h3>Donation</h3>
       <ul class="list-group mb-4">
         <li class="list-group-item" v-if="account.donation.account">
-          Nano
+          PAW
           <span class="float-right">
             <account-alias :account="account.donation.account" :send="true"></account-alias>
           </span>
@@ -346,6 +352,17 @@
         <% } %>
       </li>
     </ul>
+	
+	
+        <% if(account !== null && account.rewards){ %>
+		
+		  <h3>Rewards for delegators</h3>
+			<ul class="list-group mb-4">
+				<li class="list-group-item">
+					<%= account.rewards %>
+				</li>
+			</ul>
+        <% } %>
   </div>
 </div>
 
@@ -522,7 +539,7 @@
         <td>
           <account-alias :account="item.source"></account-alias>
         </td>
-        <td>Ӿ{{item.amount | toMnano}}</td>
+        <td>{{item.amount | toMnano}} PAW</td>
         <td><a v-bind:href="'/block/'+ key"><span v-html="$options.filters.formatHash(key)"></span></a></td>
       </tr>
     </tbody>
@@ -548,7 +565,7 @@
       <td>
         <account-alias :account="item.account"></account-alias>
       </td>
-      <td>Ӿ{{item.amount | toMnano}}</td>
+      <td>{{item.amount | toMnano}} PAW</td>
       <td><a v-bind:href="'/block/'+ item.hash"><span v-html="$options.filters.formatHash(item.hash)"></span></a></td>
     </tr>
   </tbody>
@@ -564,6 +581,6 @@
 <script>
   const address = "<% if (account === null) { %><%= myaccount %><% } else { %><%= account.account %><% } %>";
 </script>
-<script src="/static/js/sites/account.js?v=12"></script>
+<script src="/static/js/sites/account.js?v=12.2"></script>
 
 <% include ../../partials/footer.ejs %>

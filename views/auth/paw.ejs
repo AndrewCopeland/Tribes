@@ -1,6 +1,6 @@
 <% include ../../partials/header.ejs %>
 
-<h1>Connect Nano Accounts</h1>
+<h1>Connect Paw Accounts</h1>
 
 <div class="row">
 
@@ -9,19 +9,16 @@
       <div class="card-body">
         <h4 class="card-title">Verify Ownership</h4>
         <p class="card-text">
-          To verify that you own the Nano address send <b>from the address to be verified</b>.
+          To verify that you own the Paw address send <b>from the address to be verified</b>.
         </p>
+		
         <p>
-          <b>With this donation you help funding the costs of My Nano Ninja. Thank you for your support!</b>
-        </p>
-        <p>
-          The amount is Ӿ<%= amount %> or <%= amount_raw %> raw.<br> You probably need the <a href="https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#send"
+          The amount is <%= amount %> PAW or <%= amount_raw %> raw.<br> You probably need the <a href="https://github.com/nanocurrency/raiblocks/wiki/RPC-protocol#send"
             target="_blank" rel="noreferer, noopener">RPC send command</a> or send via a Wallet GUI by importing the seed.
           <div id="nano-button" class="btn btn-primary mb-3">
             Start verification
           </div>
-          <h4></h4>
-          <div class="alert alert-primary" id="statustext" style="display:none"></div>
+          <h4 id="statustext"></h4>
         </p>
       </div>
     </div>
@@ -44,7 +41,7 @@
         window.acceptNano.startPayment({
           data: {
             amount: '<%= amount %>',
-            currency: 'xno'
+            currency: ''
           },
           onStart: (paymentData) => {
             console.log('onStart', paymentData)
@@ -68,7 +65,7 @@
   function verifyPayment(token) {
     setPaymentStatus('Verifying payment...');
 
-    $.getJSON('/auth/connect/nano/' + token + '/verify', function (verifydata) {
+    $.getJSON('/auth/connect/paw/' + token + '/verify', function (verifydata) {
       console.log(verifydata);
 
       if (verifydata.status == 'OK') {
@@ -83,9 +80,6 @@
           verifyPayment(token);
         }, 3000);
 
-      } else if (verifydata.error == 'owner_existing') {
-        setPaymentStatus('This account is already claimed.');
-
       } else {
         setPaymentStatus('Error: ' + verifydata.error);
       }
@@ -93,7 +87,7 @@
   }
 
   function setPaymentStatus(status) {
-    $("#statustext").text(status).show();
+    $("#statustext").text(status);
   }
 </script>
 

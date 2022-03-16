@@ -2,15 +2,15 @@
 
 <h1>Statistics</h1>
 
-<h2>Representatives Decentralization</h2>
+<h2>Tribes Decentralization</h2>
 
 <div class="row">
   <div class="col">
-    <h3>All Representatives</h3>
+    <h3>All Tribes</h3>
     <canvas id="chartrepsdecen"></canvas>
   </div>
   <div class="col">
-    <h3>Online Representatives</h3>
+    <h3>Tribes Online</h3>
     <canvas id="chartrepsdecenonline"></canvas>
   </div>
 </div>
@@ -18,14 +18,7 @@
 
 <script>
   const nf_reps = [
-    "nano_3arg3asgtigae3xckabaaewkx3bzsh7nwz7jkmjos79ihyaxwphhm6qgjps4",
-    "nano_1stofnrxuz3cai7ze75o174bpm7scwj9jn3nxsn8ntzg784jf1gzn1jjdkou",
-    "nano_1q3hqecaw15cjt7thbtxu3pbzr1eihtzzpzxguoc37bj1wc5ffoh7w74gi6p",
-    "nano_3dmtrrws3pocycmbqwawk6xs7446qxa36fcncush4s1pejk16ksbmakis78m",
-    "nano_3hd4ezdgsp15iemx7h81in7xz5tpxi43b6b41zn3qmwiuypankocw3awes5k",
-    "nano_1awsn43we17c1oshdru4azeqjz9wii41dy8npubm4rg11so7dx3jtqgoeahy",
-    "nano_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs",
-    "nano_1hza3f7wiiqa7ig3jczyxj5yo86yegcmqk3criaz838j91sxcckpfhbhhra1"
+    "paw_3yyz45ztct47x4ai3onfbkkuorzpdtnb15cmnhu8fhosnxrgci8c5xp8xbf6",
   ];
 
   var chartColorsReps = ['#f44336', '#9C27B0', '#3F51B5', '#03A9F4', '#009688', '#8BC34A', '#FFEB3B', '#FF9800'];
@@ -52,7 +45,7 @@
       };
 
       // filter the Nano Foundation reps
-      chartdata.labels.push('Nano Foundation');
+      chartdata.labels.push('PAW Digital');
       chartdata.datasets[0].data.push(Math.round(data.filter(rep => nf_reps.includes(rep.account)).sum('votingweight') / 1000000000000000000000000000000));
       chartdata.datasets[0].backgroundColor.push('#AAAAAA');
 
@@ -102,7 +95,7 @@
   }
 </script>
 
-<h2 class="mt-3">Representatives over Time</h2>
+<h2 class="mt-3">Tribes over Time</h2>
 <canvas id="chartcanvas"></canvas>
 
 <script>

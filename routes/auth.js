@@ -20,10 +20,10 @@ module.exports = function (passport, nanorpc) {
   });
 
   // Nano check
-  router.get('/connect/nano', isLoggedIn, function (req, res) {
+  router.get('/connect/paw', isLoggedIn, function (req, res) {
     var user = req.user;
 
-    res.render('auth/nano', { 
+    res.render('auth/paw', { 
       loggedin: req.isAuthenticated(),
       user : req.user,
       payment_api: process.env.PAYMENT_API,
@@ -33,7 +33,7 @@ module.exports = function (passport, nanorpc) {
 
   });
 
-  router.get('/connect/nano/:token/verify', isLoggedIn, function (req, res) {
+  router.get('/connect/paw/:token/verify', isLoggedIn, function (req, res) {
     var user = req.user;
     var token = req.params.token;
 
@@ -71,18 +71,11 @@ module.exports = function (passport, nanorpc) {
               var account = new Account();
               account.account = sender;
             }
-
-            if(account.owner){
-              output.error = 'owner_existing';
-              res.send(output);
-              return;
-            }
-
             account.owner = user._id;
         
             account.save(function (err) {
               if (err) {
-                console.log("Auth - Nano Token Verify - Error saving account", err);
+                console.log("Auth - Paw Token Verify - Error saving account", err);
               }
               output.status = 'OK';
               output.sender = sender;

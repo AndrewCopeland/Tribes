@@ -2,16 +2,16 @@
 
 <div class="row mt-5 mb-5">
   <div class="col-sm-auto mr-auto">
-    <img src="/static/img/ninja-laptop.png" alt="Nano Logo" style="width: 12rem;" />
+    <img src="/static/img/tribe.png" alt="PAW Tribes Logo" style="width: 12rem;" />
   </div>
   <div class="col">
     <h1>
-      My Nano Ninja<br>
-      <h6>The Ninja shows you verified representatives, statistics and more for the Nano cryptocurrency!</h6>
+      PAW Tribes<br>
+      <h6>The PAW tribes shows you verified tribes, statistics and more for the PAW cryptocurrency!</h6>
     </h1>
     <div class="btn-group mt-3">
       <a href="/profile" class="btn btn-primary">Add your Account</a>
-      <a href="/faq" class="btn btn-secondary">Why should I change my rep?</a>
+      <a href="/faq" class="btn btn-secondary">Why should I change my tribe?</a>
     </div>
   </div>
 </div>
@@ -21,7 +21,7 @@
     <div class="card-body">
       <form class="form-search">
         <div class="input-group">
-          <input name="query" type="text" class="form-control" placeholder="Search for an address or block" pattern="((xrb|nano)_[a-z0-9]{60}|[A-Z0-9]{64})" title="Enter a valid Nano address or block hash">
+          <input name="query" type="text" class="form-control" placeholder="Search for an address or block" pattern="((xrb|paw)_[a-z0-9]{60}|[A-Z0-9]{64})" title="Enter a valid Paw address or block hash">
           <div class="input-group-append">
             <button class="btn btn-secondary" type="submit">Search</button>
           </div>
@@ -31,7 +31,7 @@
   </div>
 </div>
 
-<h2>Recommended Representatives</h2>
+<h2>Recommended Tribes</h2>
 
 <div class="row">
 
@@ -79,6 +79,7 @@
                 <% } %>
               <% } %>
               <span class="badge badge-success"><%= variableRound((accounts[i].votingweight / nanorpc.getOnlineStakeTotal()) * 100, 3) %> % Voting Weight</span>
+              <% if(typeof accounts[i].rewards !== 'undefined' && accounts[i].rewards !== ''){ %><span class="badge badge-info">Rewards</span><% } %>
               <% if(accounts[i].telemetry.major_version) { %>
               <span class="badge badge-secondary"><%= accounts[i].telemetry.major_version %>.<%= accounts[i].telemetry.minor_version %>.<%= accounts[i].telemetry.patch_version %><% if(accounts[i].telemetry.pre_release_version && accounts[i].telemetry.pre_release_version !== 0) { %>.<%= accounts[i].telemetry.pre_release_version %><% } %></span>
               <% } %>

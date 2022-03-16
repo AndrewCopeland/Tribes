@@ -151,7 +151,7 @@ router.get('/verified', cache('5 minutes'), function (req, res) {
     'avoid': false,
   })
     .where('votingweight').gt(0)
-    .where('score').gte(80)
+    /*.where('score').gte(80)*/
     .sort('-score')
     .select('-_id account alias uptime votingweight delegators score')
     .exec(function (err, accounts) {
@@ -177,7 +177,7 @@ router.get('/:account', function (req, res) {
     ]
   })
     .select('-_id account alias slug uptime uptime_over created lastVoted votelatency votelatency_current votingweight ' +
-    'delegators description website server network.provider location monitor score verified donation closing avoid telemetry')
+    'delegators description website rewards server network.provider location monitor score verified donation closing avoid telemetry')
     .exec(function (err, account) {
       if (err || !account) {
         console.log("API - Account", err, req.params.account);

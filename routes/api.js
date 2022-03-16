@@ -64,11 +64,23 @@ module.exports = function (nanorpc) {
       res.status(403).end();
       return;
     }
+	
+	var checkAnimal = function checker(value) {
+		var animals = ["bear","cat","chicken","dog","elephant","hedgehog","horse","lion","monkey","pig","rabbit","racoon"];
+
+		for (var i = 0; i < animals.length; i++) {
+			if (value.toLowerCase().indexOf(animals[i]) > -1) {
+				return true;
+			}
+		}
+		return false;
+	}
 
     var output = {};
 
     account.alias = req.body.account_alias;
     account.description = req.body.account_description;
+    account.rewards = req.body.account_rewards;
     account.website = req.body.account_website;
 
     if (!account.server) {
@@ -81,13 +93,19 @@ module.exports = function (nanorpc) {
     account.donation = req.body.donation;
     account.closing = req.body.closing;
 
-    if (req.body.account_monitorUrl !== '') {
-      try {
-        var monitor_url = req.body.account_monitorUrl + '/api.php';
-        var monitor_response = await axios.get(monitor_url);
-      } catch (error) {
-        console.error('MONITOR ERROR', monitor_url, error);
+	if (!checkAnimal(account.alias)) {
         res.status(400).json({
+			status: 'error',
+			msg: 'Please include the name of pawnimal in your tribe\'s alias.',
+        });
+        return;
+	}
+    if (req.body.account_monitorUrl) {
+      try {
+        var monitor_url = new URL("/api.php", req.body.account_monitorUrl);
+        var monitor_response = await axios.get(monitor_url.href);
+      } catch (error) {
+        res.json({
           status: 'error',
           msg: 'Couldn\'t contact Node Monitor!'
         });
@@ -95,7 +113,7 @@ module.exports = function (nanorpc) {
       }
 
       if (monitor_response.status !== 200) {
-        res.status(400).json({
+        res.json({
           status: 'error',
           msg: 'Couldn\'t contact Node Monitor!'
         });
@@ -118,11 +136,6 @@ module.exports = function (nanorpc) {
         account.monitor.version = monitor_response.data.version;
         account.monitor.blocks = monitor_response.data.currentBlock;
       }
-    } else {
-      console.log('EDIT ACCOUNT - Deleting monitor')
-      account.monitor.url = undefined;
-      account.monitor.version = undefined;
-      account.monitor.blocks = undefined;
     }
 
     try {

@@ -16,7 +16,7 @@ var userSchema = mongoose.Schema({
     },
     calls_remaining: {
       type: Number,
-      default: 1000
+      default: 100
     }
   },
   twitter: {

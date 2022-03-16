@@ -24,7 +24,7 @@ $(".form-search").submit(function (e) {
 
   var query = $(this).serializeArray()[0].value;
 
-  if (/^(xrb|nano)_[a-z0-9]{60}$/.test(query)) {
+  if (/^(xrb|paw)_[a-z0-9]{60}$/.test(query)) {
     window.location = '/account/' + query;
   } else if (/^[A-Z0-9]{64}$/.test(query)) {
     window.location = '/block/' + query;
@@ -103,7 +103,7 @@ function toMnano(value, decimals = 6) {
   if (!value) return ''
   value = value.toString()
 
-  multNANO = Big('1000000000000000000000000000000');
+  multNANO = Big('1000000000000000000000000000');
 
   return Big(value).div(multNANO).toFixed(decimals).toString()
 }
@@ -144,15 +144,6 @@ function dynamicSortMultiple() {
       return result;
   }
 }
-
-function updateGoal(){
-  axios.get('/api/github/goal').then(res => {
-    var activeGoal = res.data.data.user.sponsorsListing.activeGoal;
-    $(".progress-bar").css('width', activeGoal.percentComplete+'%');
-    $("#sponsor-progress-text").text(activeGoal.percentComplete + '% towards ' + activeGoal.title + ' goal')
-  })
-}
-updateGoal();
 
 // init functions
 for (i = 0, length = init.length; i < length; i++) {

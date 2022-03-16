@@ -61,6 +61,7 @@ var accountSchema = mongoose.Schema({
     peer_count: Number
   },
   description: String,
+  rewards: String,
   website: String,
   server: {
     type: { type: String },
